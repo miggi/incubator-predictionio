@@ -24,7 +24,7 @@ import com.github.nscala_time.time.Imports._
 import org.apache.predictionio.data.storage.{DataMap, Event, PEvents, StorageClientConfig}
 import org.apache.spark.SparkContext
 import org.apache.spark.rdd.{JdbcRDD, RDD}
-import org.apache.spark.sql.{SQLContext, SaveMode}
+import org.apache.spark.sql.{SaveMode, SparkSession}
 import org.json4s.JObject
 import org.json4s.native.Serialization
 import scalikejdbc._
@@ -118,7 +118,9 @@ class JDBCPEvents(client: String, config: StorageClientConfig, namespace: String
   }
 
   def write(events: RDD[Event], appId: Int, channelId: Option[Int])(sc: SparkContext): Unit = {
-    val sqlContext = new SQLContext(sc)
+    val sqlContext = SparkSession
+      .builder()
+      .getOrCreate()
 
     import sqlContext.implicits._
 

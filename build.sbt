@@ -19,11 +19,11 @@ import UnidocKeys._
 
 name := "apache-predictionio-parent"
 
-version in ThisBuild := "0.11.0-SNAPSHOT"
+version in ThisBuild := "0.12.0-SNAPSHOT"
 
 organization in ThisBuild := "org.apache.predictionio"
 
-scalaVersion in ThisBuild := "2.10.5"
+scalaVersion in ThisBuild := "2.11.5"
 
 scalacOptions in ThisBuild ++= Seq("-deprecation", "-unchecked", "-feature")
 
@@ -38,7 +38,7 @@ elasticsearchVersion in ThisBuild := "1.4.4"
 
 json4sVersion in ThisBuild := "3.2.10"
 
-sparkVersion in ThisBuild := "1.4.0"
+sparkVersion in ThisBuild := "2.1.0"
 
 lazy val pioBuildInfoSettings = buildInfoSettings ++ Seq(
   sourceGenerators in Compile <+= buildInfo,
