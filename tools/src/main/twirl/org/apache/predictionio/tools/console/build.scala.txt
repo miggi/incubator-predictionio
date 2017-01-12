@@ -1,4 +1,4 @@
-Usage: pio build [--sbt-extra <value>] [--clean] [--no-asm]
+Usage: pio build [--sbt-extra <value>] [--clean] [--no-asm] [--maven]
                  [common options...]
                  
 Build an engine at the current directory.
@@ -9,3 +9,5 @@ Build an engine at the current directory.
       Clean build.
   --no-asm
       Skip building external dependencies assembly.
+  --maven
+      Use maven instead of SBT.

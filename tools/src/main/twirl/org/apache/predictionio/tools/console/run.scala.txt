@@ -15,3 +15,5 @@ level of pass-through arguments to the driver program, e.g.
       Clean build.
   --no-asm
       Skip building external dependencies assembly.
+  --maven
+      Use maven instead of SBT.

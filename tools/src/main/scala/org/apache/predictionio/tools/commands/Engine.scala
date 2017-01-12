@@ -49,6 +49,7 @@ case class BuildArgs(
   sbtAssemblyPackageDependency: Boolean = true,
   sbtClean: Boolean = false,
   uberJar: Boolean = false,
+  maven: Boolean = false,
   forceGeneratePIOSbt: Boolean = false)
 
 case class EngineArgs(
@@ -151,12 +152,29 @@ object Engine extends EitherLogging {
     }
   }
 
+  private def detectMaven(mvn: Option[File], pioHome: String): String = {
+    mvn map {
+      _.getCanonicalPath
+    } getOrElse {
+      val f = new File(Seq(pioHome, "maven", "bin/mvn").mkString(File.separator))
+      if (f.exists) f.getCanonicalPath else "bin/mvn"
+    }
+  }
+
   private def outputSbtError(line: String): Unit = {
     """\[.*error.*\]""".r findFirstIn line foreach { _ => error(line) }
   }
 
-  private def compile(
-    buildArgs: BuildArgs, pioHome: String, verbose: Boolean): MaybeError = {
+  private def compile(buildArgs: BuildArgs, pioHome: String, verbose: Boolean): MaybeError = {
+    if (buildArgs.maven) {
+      compileMaven(buildArgs, pioHome, verbose)
+    }
+    else {
+      compileSbt(buildArgs, pioHome, verbose)
+    }
+  }
+
+  private def compileSbt(buildArgs: BuildArgs, pioHome: String, verbose: Boolean): MaybeError = {
     // only add pioVersion to sbt if project/pio.sbt exists
     if (new File("project", "pio-build.sbt").exists || buildArgs.forceGeneratePIOSbt) {
       FileUtils.writeLines(
@@ -203,6 +221,46 @@ object Engine extends EitherLogging {
           s"like an engine project directory. Please delete lib/${core.getName} manually.")
       }
     }
+    info(s"Going to run: ${buildCmd}")
+    try {
+      val r =
+        if (verbose) {
+          buildCmd.!(ProcessLogger(line => info(line), line => error(line)))
+        } else {
+          buildCmd.!(ProcessLogger(
+            line => outputSbtError(line),
+            line => outputSbtError(line)))
+        }
+      if (r != 0) {
+        logAndFail(s"Return code of build command: ${buildCmd} is ${r}. Aborting.")
+      } else {
+        logAndSucceed("Compilation finished successfully.")
+      }
+    } catch {
+      case e: java.io.IOException =>
+        logAndFail(s"Exception during compilation: ${e.getMessage}")
+    }
+  }
+
+  private def compileMaven(buildArgs: BuildArgs, pioHome: String, verbose: Boolean): MaybeError = {
+    implicit val formats = Utils.json4sDefaultFormats
+
+    val mvn = detectSbt(buildArgs.sbt, pioHome)
+    info(s"Using command '${mvn}' at the current working directory to build.")
+    info("If the path above is incorrect, this process will fail.")
+
+    val clean = if (buildArgs.sbtClean) " clean" else ""
+    val buildCmd = s"${mvn} ${buildArgs.sbtExtra.getOrElse("")}$clean "
+
+    val core = new File(s"pio-assembly-${BuildInfo.version}.jar")
+    if (new File("engine.json").exists()) {
+      info(s"Uber JAR disabled. Making sure lib/${core.getName} is absent.")
+      new File("lib", core.getName).delete()
+    } else {
+      info("Uber JAR disabled, but current working directory does not look " +
+        s"like an engine project directory. Please delete lib/${core.getName} manually.")
+    }
+
     info(s"Going to run: ${buildCmd}")
     try {
       val r =

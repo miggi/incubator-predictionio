@@ -36,12 +36,14 @@ mkdir -p ${DISTDIR}/conf
 mkdir -p ${DISTDIR}/lib
 mkdir -p ${DISTDIR}/project
 mkdir -p ${DISTDIR}/sbt
+mkdir -p ${DISTDIR}/maven
 
 cp ${FWDIR}/bin/* ${DISTDIR}/bin || :
 cp ${FWDIR}/conf/* ${DISTDIR}/conf
 cp ${FWDIR}/project/build.properties ${DISTDIR}/project
 cp ${FWDIR}/sbt/sbt ${DISTDIR}/sbt
 cp ${FWDIR}/sbt/sbt-launch-lib.bash ${DISTDIR}/sbt
+cp -r ${FWDIR}/maven/* ${DISTDIR}/maven
 cp ${FWDIR}/assembly/*assembly*jar ${DISTDIR}/lib
 
 rm -f ${DISTDIR}/lib/*javadoc.jar

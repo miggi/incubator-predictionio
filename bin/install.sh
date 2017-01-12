@@ -18,8 +18,8 @@
 #
 
 OS=`uname`
-PIO_VERSION=0.11.0-SNAPSHOT
-SPARK_VERSION=1.6.2
+PIO_VERSION=0.12.0-incubating
+SPARK_VERSION=2.1.0
 # Looks like support for Elasticsearch 2.0 will require 2.0 so deferring
 ELASTICSEARCH_VERSION=1.7.5
 HBASE_VERSION=1.2.2

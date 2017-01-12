@@ -182,6 +182,9 @@ object Console extends Logging {
           opt[Unit]("uber-jar") action { (x, c) =>
             c.copy(build = c.build.copy(uberJar = true))
           },
+          opt[Unit]("maven") action { (x, c) =>
+            c.copy(build = c.build.copy(maven = true))
+          }text("Maven build"),
           opt[Unit]("generate-pio-sbt") action { (x, c) =>
             c.copy(build = c.build.copy(forceGeneratePIOSbt = true))
           }
@@ -401,6 +404,9 @@ object Console extends Logging {
           opt[Unit]("clean") action { (x, c) =>
             c.copy(build = c.build.copy(sbtClean = true))
           } text("Clean build."),
+           opt[Unit]("maven") action { (x, c) =>
+            c.copy(build = c.build.copy(maven = true))
+          } text ("Maven build."),
           opt[Unit]("no-asm") action { (x, c) =>
             c.copy(build = c.build.copy(sbtAssemblyPackageDependency = false))
           } text("Skip building external dependencies assembly.")
