@@ -245,12 +245,12 @@ object Engine extends EitherLogging {
   private def compileMaven(buildArgs: BuildArgs, pioHome: String, verbose: Boolean): MaybeError = {
     implicit val formats = Utils.json4sDefaultFormats
 
-    val mvn = detectSbt(buildArgs.sbt, pioHome)
+    val mvn = detectMaven(buildArgs.sbt, pioHome)
     info(s"Using command '${mvn}' at the current working directory to build.")
     info("If the path above is incorrect, this process will fail.")
 
     val clean = if (buildArgs.sbtClean) " clean" else ""
-    val buildCmd = s"${mvn} ${buildArgs.sbtExtra.getOrElse("")}$clean "
+    val buildCmd = s"${mvn} ${buildArgs.sbtExtra.getOrElse("")}$clean package"
 
     val core = new File(s"pio-assembly-${BuildInfo.version}.jar")
     if (new File("engine.json").exists()) {

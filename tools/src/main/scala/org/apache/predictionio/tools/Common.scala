@@ -89,10 +89,19 @@ object Common extends EitherLogging {
     }
     val libFiles = jarFilesForScalaFilter(jarFilesAt(new File("lib")))
     val scalaVersionNoPatch = Common.versionNoPatch(BuildInfo.scalaVersion)
-    val targetFiles = jarFilesForScalaFilter(jarFilesAt(new File("target" +
-      File.separator + s"scala-${scalaVersionNoPatch}")))
+    val targetSbtFiles = jarFilesForScalaFilter(jarFilesAt(new File("target" +
+      File.separator + s"scala-$scalaVersionNoPatch")))
+
+    val targetMvnFiles = jarFilesForScalaFilter(jarFilesAt(new File("target")))
+
     // Use libFiles is target is empty.
-    if (targetFiles.size > 0) targetFiles else libFiles
+    if (targetSbtFiles.length > 0) {
+      targetSbtFiles
+    }
+    else if (targetMvnFiles.length > 0) {
+      targetMvnFiles
+    }
+    else libFiles
   }
 
   def coreAssembly(pioHome: String): Expected[File] = {

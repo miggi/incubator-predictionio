@@ -184,7 +184,7 @@ object Console extends Logging {
           },
           opt[Unit]("maven") action { (x, c) =>
             c.copy(build = c.build.copy(maven = true))
-          }text("Maven build"),
+          } text("Maven build"),
           opt[Unit]("generate-pio-sbt") action { (x, c) =>
             c.copy(build = c.build.copy(forceGeneratePIOSbt = true))
           }
@@ -224,6 +224,9 @@ object Console extends Logging {
           },
           opt[Unit]("uber-jar") action { (x, c) =>
             c.copy(build = c.build.copy(uberJar = true))
+          },
+          opt[Unit]("maven") action { (x, c) =>
+            c.copy(build = c.build.copy(maven = true))
           },
           opt[Int]("verbosity") action { (x, c) =>
             c.copy(workflow = c.workflow.copy(verbosity = x))
