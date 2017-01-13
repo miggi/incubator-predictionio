@@ -161,8 +161,9 @@ object Engine extends EitherLogging {
     }
   }
 
-  private def outputSbtError(line: String): Unit = {
-    """\[.*error.*\]""".r findFirstIn line foreach { _ => error(line) }
+  private def outErrorCheck(line: String): Unit = {
+    info("build : " + line.toLowerCase)
+    """\[.*error.*\]""".r findFirstIn line foreach { _ => error(line.toLowerCase) }
   }
 
   private def compile(buildArgs: BuildArgs, pioHome: String, verbose: Boolean): MaybeError = {
@@ -228,11 +229,11 @@ object Engine extends EitherLogging {
           buildCmd.!(ProcessLogger(line => info(line), line => error(line)))
         } else {
           buildCmd.!(ProcessLogger(
-            line => outputSbtError(line),
-            line => outputSbtError(line)))
+            line => outErrorCheck(line),
+            line => outErrorCheck(line)))
         }
       if (r != 0) {
-        logAndFail(s"Return code of build command: ${buildCmd} is ${r}. Aborting.")
+        logAndFail(s"Return code of build command: $buildCmd is $r. Aborting.")
       } else {
         logAndSucceed("Compilation finished successfully.")
       }
@@ -246,11 +247,11 @@ object Engine extends EitherLogging {
     implicit val formats = Utils.json4sDefaultFormats
 
     val mvn = detectMaven(buildArgs.sbt, pioHome)
-    info(s"Using command '${mvn}' at the current working directory to build.")
+    info(s"Using command '$mvn' at the current working directory to build.")
     info("If the path above is incorrect, this process will fail.")
 
     val clean = if (buildArgs.sbtClean) " clean" else ""
-    val buildCmd = s"${mvn} ${buildArgs.sbtExtra.getOrElse("")}$clean package"
+    val buildCmd = s"$mvn ${buildArgs.sbtExtra.getOrElse("")}$clean package"
 
     val core = new File(s"pio-assembly-${BuildInfo.version}.jar")
     if (new File("engine.json").exists()) {
@@ -261,15 +262,15 @@ object Engine extends EitherLogging {
         s"like an engine project directory. Please delete lib/${core.getName} manually.")
     }
 
-    info(s"Going to run: ${buildCmd}")
+    info(s"Going to run: $buildCmd")
     try {
       val r =
         if (verbose) {
           buildCmd.!(ProcessLogger(line => info(line), line => error(line)))
         } else {
           buildCmd.!(ProcessLogger(
-            line => outputSbtError(line),
-            line => outputSbtError(line)))
+            line => outErrorCheck(line),
+            line => outErrorCheck(line)))
         }
       if (r != 0) {
         logAndFail(s"Return code of build command: ${buildCmd} is ${r}. Aborting.")
@@ -296,7 +297,12 @@ object Engine extends EitherLogging {
     Template.verifyTemplateMinVersion(new File("template.json")) match {
       case Left(err) => return Left(err)
       case Right(_) =>
-        compile(buildArgs, pioHome, verbose)
+        val maybeError = compile(buildArgs, pioHome, verbose)
+
+        if(maybeError.isLeft) {
+          return logAndFail("An error occurred during template compilation. Aborting.")
+        }
+
         info("Looking for an engine...")
         val jarFiles = jarFilesForScala
         if (jarFiles.isEmpty) {
