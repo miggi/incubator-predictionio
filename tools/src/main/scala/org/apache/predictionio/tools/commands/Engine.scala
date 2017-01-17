@@ -198,8 +198,15 @@ object Engine extends EitherLogging {
         ""
       }
     val clean = if (buildArgs.sbtClean) " clean" else ""
-    val buildCmd = s"${sbt} ${buildArgs.sbtExtra.getOrElse("")}${clean} " +
-      (if (buildArgs.uberJar) "assembly" else s"package${asm}")
+
+    val buildCmd = if (buildArgs.sbtExtra.getOrElse("").contains("/")) {
+      s"${sbt} ${buildArgs.sbtExtra.get}" // build sub-project
+    }
+    else {
+      s"${sbt} ${buildArgs.sbtExtra.getOrElse("")}${clean} " +
+        (if (buildArgs.uberJar) "assembly" else s"package${asm}")
+    }
+
     val core = new File(s"pio-assembly-${BuildInfo.version}.jar")
     if (buildArgs.uberJar) {
       info(s"Uber JAR enabled. Putting ${core.getName} in lib.")
