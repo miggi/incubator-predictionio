@@ -27,7 +27,7 @@ VERSION=$(grep version ${FWDIR}/build.sbt | grep ThisBuild | grep -o '".*"' | se
 echo "Building binary distribution for PredictionIO $VERSION..."
 
 cd ${FWDIR}
-sbt/sbt common/publishLocal data/publishLocal core/publishLocal e2/publishLocal tools/assembly
+sbt/sbt -Dsbt.repository.secure=false common/publishLocal data/publishLocal core/publishLocal e2/publishLocal tools/assembly
 
 cd ${FWDIR}
 rm -rf ${DISTDIR}
@@ -40,7 +40,7 @@ mkdir -p ${DISTDIR}/maven
 
 cp ${FWDIR}/bin/* ${DISTDIR}/bin || :
 cp ${FWDIR}/conf/* ${DISTDIR}/conf
-cp ${FWDIR}/project/build.properties ${DISTDIR}/project
+cp ${FWDIR}/project/build.properties ${DISTDIR}/projectr
 cp ${FWDIR}/sbt/sbt ${DISTDIR}/sbt
 cp ${FWDIR}/sbt/sbt-launch-lib.bash ${DISTDIR}/sbt
 cp -r ${FWDIR}/maven/* ${DISTDIR}/maven
