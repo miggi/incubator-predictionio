@@ -18,7 +18,9 @@
 
 package org.apache.predictionio.tools.admin
 
+import org.apache.predictionio.Storage
 import org.apache.predictionio.data.storage._
+import org.apache.predictionio.storage._
 
 import scala.concurrent.{ExecutionContext, Future}
 

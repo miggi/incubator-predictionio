@@ -20,7 +20,7 @@ package org.apache.predictionio.workflow
 
 import akka.actor.Actor
 import akka.event.Logging
-import org.apache.predictionio.data.storage.EngineInstance
+import org.apache.predictionio.EngineInstance
 import org.json4s.JValue
 
 class PluginsActor(engineVariant: String) extends Actor {

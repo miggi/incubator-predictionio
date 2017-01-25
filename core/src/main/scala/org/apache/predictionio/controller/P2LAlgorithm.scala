@@ -19,6 +19,7 @@
 package org.apache.predictionio.controller
 
 import _root_.org.apache.predictionio.annotation.DeveloperApi
+import org.apache.predictionio.Params
 import org.apache.predictionio.core.BaseAlgorithm
 import org.apache.predictionio.workflow.PersistentModelManifest
 import org.apache.spark.SparkContext

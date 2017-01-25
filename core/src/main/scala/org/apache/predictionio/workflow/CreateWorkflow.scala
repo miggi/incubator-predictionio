@@ -25,13 +25,11 @@ import com.google.common.io.ByteStreams
 import grizzled.slf4j.Logging
 import org.apache.predictionio.controller.Engine
 import org.apache.predictionio.core.BaseEngine
-import org.apache.predictionio.data.storage.EngineInstance
-import org.apache.predictionio.data.storage.EvaluationInstance
-import org.apache.predictionio.data.storage.Storage
 import org.apache.predictionio.workflow.JsonExtractorOption.JsonExtractorOption
 import org.apache.hadoop.conf.Configuration
 import org.apache.hadoop.fs.FileSystem
 import org.apache.hadoop.fs.Path
+import org.apache.predictionio.{EngineInstance, EvaluationInstance, Storage}
 import org.json4s.JValue
 import org.json4s.JString
 import org.json4s.native.JsonMethods.parse

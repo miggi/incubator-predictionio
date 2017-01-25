@@ -17,14 +17,15 @@
 
 package org.apache.predictionio.tools.commands
 
+import org.apache.predictionio
+import org.apache.predictionio.{EitherLogging, Storage}
 import org.apache.predictionio.data.storage
-import org.apache.predictionio.data.storage.Channel
-import org.apache.predictionio.tools.EitherLogging
-import org.apache.predictionio.tools.ReturnTypes._
+import org.apache.predictionio.ReturnTypes._
+import org.apache.predictionio.storage.{AccessKey, App, Channel}
 
 sealed case class AppDescription(
-  app: storage.App,
-  keys: Seq[storage.AccessKey])
+                                  app: App,
+                                  keys: Seq[AccessKey])
 
 object App extends EitherLogging {
 
@@ -34,9 +35,9 @@ object App extends EitherLogging {
     description: Option[String] = None,
     accessKey: String = "") : Expected[AppDescription] = {
 
-    val apps = storage.Storage.getMetaDataApps()
+    val apps = Storage.getMetaDataApps()
     // get the client in the beginning so error exit right away if can't access client
-    val events = storage.Storage.getLEvents()
+    val events = predictionio.Storage.getLEvents()
     var errStr = ""
 
     apps.getByName(name) map { app =>
@@ -53,7 +54,7 @@ object App extends EitherLogging {
         }
       }
     } map {err => Left(err)} getOrElse {
-      val newApp = storage.App(
+      val newApp = App(
         id = id.getOrElse(0),
         name = name,
         description = description)
@@ -63,8 +64,8 @@ object App extends EitherLogging {
         val dbInit = events.init(id)
         val r = if (dbInit) {
           info(s"Initialized Event Store for this app ID: ${id}.")
-          val accessKeys = storage.Storage.getMetaDataAccessKeys
-          val newKey = storage.AccessKey(
+          val accessKeys = predictionio.Storage.getMetaDataAccessKeys
+          val newKey = AccessKey(
             key = accessKey,
             appid = id,
             events = Seq())
@@ -98,8 +99,8 @@ object App extends EitherLogging {
   }
 
   def list: Seq[AppDescription] = {
-    val apps = storage.Storage.getMetaDataApps.getAll().sortBy(_.name)
-    val accessKeys = storage.Storage.getMetaDataAccessKeys
+    val apps = predictionio.Storage.getMetaDataApps.getAll().sortBy(_.name)
+    val accessKeys = predictionio.Storage.getMetaDataAccessKeys
 
     apps map { app =>
       AppDescription(
@@ -109,9 +110,9 @@ object App extends EitherLogging {
   }
 
   def show(appName: String): Expected[(AppDescription, Seq[Channel])] = {
-    val apps = storage.Storage.getMetaDataApps
-    val accessKeys = storage.Storage.getMetaDataAccessKeys
-    val channels = storage.Storage.getMetaDataChannels
+    val apps = predictionio.Storage.getMetaDataApps
+    val accessKeys = predictionio.Storage.getMetaDataAccessKeys
+    val channels = predictionio.Storage.getMetaDataChannels
 
     apps.getByName(appName) map { app =>
       Right(
@@ -126,7 +127,7 @@ object App extends EitherLogging {
   }
 
   def delete(name: String): MaybeError = {
-    val events = storage.Storage.getLEvents()
+    val events = predictionio.Storage.getLEvents()
     try {
       show(name).right.flatMap { case (appDesc: AppDescription, channels: Seq[Channel]) =>
 
@@ -135,7 +136,7 @@ object App extends EitherLogging {
             if (events.remove(appDesc.app.id, Some(ch.id))) {
               info(s"Removed Event Store of the channel ID: ${ch.id}")
               try {
-                storage.Storage.getMetaDataChannels.delete(ch.id)
+                predictionio.Storage.getMetaDataChannels.delete(ch.id)
                 info(s"Deleted channel ${ch.name}")
                 None
               } catch {
@@ -168,7 +169,7 @@ object App extends EitherLogging {
 
           appDesc.keys foreach { key =>
             try {
-              storage.Storage.getMetaDataAccessKeys.delete(key.key)
+              predictionio.Storage.getMetaDataAccessKeys.delete(key.key)
               info(s"Removed access key ${key.key}")
             } catch {
               case e: Exception =>
@@ -177,7 +178,7 @@ object App extends EitherLogging {
           }
 
           try {
-            storage.Storage.getMetaDataApps.delete(appDesc.app.id)
+            predictionio.Storage.getMetaDataApps.delete(appDesc.app.id)
             info(s"Deleted app ${appDesc.app.name}.")
           } catch {
             case e: Exception =>
@@ -197,7 +198,7 @@ object App extends EitherLogging {
     all: Boolean = false): MaybeError = {
 
     var errStr = ""
-    val events = storage.Storage.getLEvents()
+    val events = predictionio.Storage.getLEvents()
     try {
       show(name).right.flatMap { case (appDesc: AppDescription, channels: Seq[Channel]) =>
 
@@ -265,18 +266,18 @@ object App extends EitherLogging {
   }
 
   def channelNew(appName: String, newChannel: String): Expected[Channel] = {
-    val events = storage.Storage.getLEvents()
-    val chanStorage = storage.Storage.getMetaDataChannels
+    val events = predictionio.Storage.getLEvents()
+    val chanStorage = predictionio.Storage.getMetaDataChannels
     var errStr = ""
     try {
       show(appName).right flatMap { case (appDesc: AppDescription, channels: Seq[Channel]) =>
         if (channels.find(ch => ch.name == newChannel).isDefined) {
           logAndFail(s"""Channel ${newChannel} already exists.
                       |Unable to create new channel.""")
-        } else if (!storage.Channel.isValidName(newChannel)) {
+        } else if (!predictionio.storage.Channel.isValidName(newChannel)) {
           logAndFail(s"""Unable to create new channel.
                       |The channel name ${newChannel} is invalid.
-                      |${storage.Channel.nameConstraint}""")
+                      |${predictionio.storage.Channel.nameConstraint}""")
         } else {
 
           val channel = Channel(
@@ -327,8 +328,8 @@ object App extends EitherLogging {
   }
 
   def channelDelete(appName: String, deleteChannel: String): MaybeError = {
-    val chanStorage = storage.Storage.getMetaDataChannels
-    val events = storage.Storage.getLEvents()
+    val chanStorage = predictionio.Storage.getMetaDataChannels
+    val events = predictionio.Storage.getLEvents()
     var errStr = ""
     try {
       show(appName).right.flatMap { case (appDesc: AppDescription, channels: Seq[Channel]) =>

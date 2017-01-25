@@ -18,6 +18,7 @@
 
 package org.apache.predictionio.workflow
 
+import org.apache.predictionio.{EmptyParams, EngineParams}
 import org.apache.predictionio.annotation.Experimental
 // FIXME(yipjustin): Remove wildcard import.
 import org.apache.predictionio.core._

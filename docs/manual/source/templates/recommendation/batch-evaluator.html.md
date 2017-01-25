@@ -79,10 +79,10 @@ package org.template.recommendation
 
 import org.apache.predictionio.controller.EmptyEvaluationInfo
 import org.apache.predictionio.controller.Engine
-import org.apache.predictionio.controller.EngineParams
+import org.apache.predictionio.EngineParams
 import org.apache.predictionio.controller.EngineParamsGenerator
 import org.apache.predictionio.controller.Evaluation
-import org.apache.predictionio.controller.Params
+import org.apache.predictionio.Params
 import org.apache.predictionio.core.BaseEvaluator
 import org.apache.predictionio.core.BaseEvaluatorResult
 import org.apache.predictionio.workflow.WorkflowParams
@@ -171,7 +171,7 @@ Modify the appName parameter in `DataSourceParams` to match your app name.
 package org.template.recommendation
 
 import org.apache.predictionio.controller.EngineParamsGenerator
-import org.apache.predictionio.controller.EngineParams
+import org.apache.predictionio.EngineParams
 import org.apache.predictionio.controller.Evaluation
 
 object BatchEvaluation extends Evaluation {

@@ -22,12 +22,11 @@ import akka.actor.{Actor, ActorSystem, Props}
 import akka.event.Logging
 import akka.io.IO
 import akka.util.Timeout
-import org.apache.predictionio.data.api.StartServer
-import org.apache.predictionio.data.storage.Storage
-import org.json4s.{Formats, DefaultFormats}
-
+import org.json4s.{DefaultFormats, Formats}
 import java.util.concurrent.TimeUnit
 
+import org.apache.predictionio.Storage
+import org.apache.predictionio.api.StartServer
 import spray.can.Http
 import spray.http.{MediaTypes, StatusCodes}
 import spray.httpx.Json4sSupport

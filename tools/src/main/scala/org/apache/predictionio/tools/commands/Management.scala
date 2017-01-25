@@ -19,15 +19,19 @@ package org.apache.predictionio.tools.commands
 
 import org.apache.predictionio.core.BuildInfo
 import org.apache.predictionio.data.storage
-import org.apache.predictionio.data.api.{TaskServer, TaskServerConfig, EventServer, EventServerConfig}
-import org.apache.predictionio.tools.{Common, TaskServerArgs, EitherLogging, EventServerArgs}
-import org.apache.predictionio.tools.ReturnTypes._
+import org.apache.predictionio.data.api.{EventServer, TaskServer, TaskServerConfig}
+import org.apache.predictionio.tools.{Common, TaskServerArgs}
+import org.apache.predictionio.ReturnTypes._
 import org.apache.predictionio.tools.dashboard.Dashboard
 import org.apache.predictionio.tools.dashboard.DashboardConfig
 import org.apache.predictionio.tools.admin.AdminServer
 import org.apache.predictionio.tools.admin.AdminServerConfig
 import akka.actor.ActorSystem
 import java.io.File
+
+import org.apache.predictionio
+import org.apache.predictionio._
+import org.apache.predictionio.api.{EventServer, EventServerConfig, TaskServer, TaskServerConfig}
 
 import scala.io.Source
 import semverfi._
@@ -163,7 +167,7 @@ object Management extends EitherLogging {
     }
     info("Inspecting storage backend connections...")
     try {
-      storage.Storage.verifyAllDataObjects()
+      Storage.verifyAllDataObjects()
     } catch {
       case e: Throwable =>
         val errStr = s"""Unable to connect to all storage backends successfully.
@@ -172,7 +176,7 @@ object Management extends EitherLogging {
             |Dumping configuration of initialized storage backend sources.
             |"Please make sure they are correct.
             |"""
-        val sources = storage.Storage.config.get("sources") map { src =>
+        val sources = predictionio.Storage.config.get("sources") map { src =>
           src map { case (s, p) =>
             s"Source Name: $s; Type: ${p.getOrElse("type", "(error)")}; " +
               s"Configuration: ${p.getOrElse("config", "(error)")}"

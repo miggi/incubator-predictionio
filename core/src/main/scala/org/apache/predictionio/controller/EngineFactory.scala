@@ -18,6 +18,7 @@
 
 package org.apache.predictionio.controller
 
+import org.apache.predictionio.EngineParams
 import org.apache.predictionio.core.BaseEngine
 
 import scala.language.implicitConversions

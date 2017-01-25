@@ -19,8 +19,8 @@
 package org.apache.predictionio.core
 
 import grizzled.slf4j.Logging
+import org.apache.predictionio.Params
 import org.apache.predictionio.annotation.DeveloperApi
-import org.apache.predictionio.controller.Params
 
 /** :: DeveloperApi ::
   * Base class for all controllers

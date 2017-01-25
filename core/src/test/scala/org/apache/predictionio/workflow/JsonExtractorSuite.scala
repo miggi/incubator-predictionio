@@ -18,8 +18,7 @@
 
 package org.apache.predictionio.workflow
 
-import org.apache.predictionio.controller.EngineParams
-import org.apache.predictionio.controller.Params
+import org.apache.predictionio.{EngineParams, Params}
 import org.apache.predictionio.controller.Utils
 import org.json4s.CustomSerializer
 import org.json4s.JsonAST.JField

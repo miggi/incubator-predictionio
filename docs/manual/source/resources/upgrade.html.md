@@ -421,5 +421,5 @@ Replace by the returned app ID: ( is the original app ID used in 0.8.0/0.8.2.)
 $ set -a
 $ source conf/pio-env.sh
 $ set +a
-$ sbt/sbt "data/run-main org.apache.predictionio.data.storage.hbase.upgrade.Upgrade <from app ID>" "<to app ID>"
+$ sbt/sbt "data/run-main org.apache.predictionio.storage.hbase.upgrade.Upgrade <from app ID>" "<to app ID>"
 ```

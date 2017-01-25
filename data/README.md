@@ -80,7 +80,7 @@ Replace <to app ID> by the returned app ID:
 $ set -a
 $ source conf/pio-env.sh
 $ set +a
-$ sbt/sbt "data/run-main org.apache.predictionio.data.storage.hbase.upgrade.Upgrade <from app ID>" "<to app ID>"
+$ sbt/sbt "data/run-main org.apache.predictionio.storage.hbase.upgrade.Upgrade <from app ID>" "<to app ID>"
 ```
 
 ### Upgrade from 0.8.2 to 0.8.3
@@ -108,7 +108,7 @@ $ bin/pio app new NewApp
 The App with `<new_app_id>` must be empty before you upgrade. You can check the status of this new created app using:
 
 ```
-$ sbt/sbt "data/run-main org.apache.predictionio.data.storage.hbase.upgrade.CheckDistribution <new_app_id>"
+$ sbt/sbt "data/run-main org.apache.predictionio.storage.hbase.upgrade.CheckDistribution <new_app_id>"
 ```
 
 If it shows that it is non-empty, you can clean it with
@@ -120,12 +120,12 @@ $ bin/pio app data-delete <new_app_name>
 #### 2. Run the following to migrate from <old_app_id> to <new_app_id>
 
 ```
-$ sbt/sbt "data/run-main org.apache.predictionio.data.storage.hbase.upgrade.Upgrade_0_8_3 <old_app_id> <new_app_id>"
+$ sbt/sbt "data/run-main org.apache.predictionio.storage.hbase.upgrade.Upgrade_0_8_3 <old_app_id> <new_app_id>"
 ... Done.
 ```
 
 You can use the following to check the <new_app_id> again. It should display the number of data being migrated:
 
 ```
-$ sbt/sbt "data/run-main org.apache.predictionio.data.storage.hbase.upgrade.CheckDistribution <new_app_id>"
+$ sbt/sbt "data/run-main org.apache.predictionio.storage.hbase.upgrade.CheckDistribution <new_app_id>"
 ```

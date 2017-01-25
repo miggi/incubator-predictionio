@@ -18,6 +18,7 @@
 
 package org.apache.predictionio.controller
 
+import org.apache.predictionio.Params
 import org.apache.predictionio.annotation.DeveloperApi
 import org.apache.predictionio.core.BaseAlgorithm
 import org.apache.predictionio.workflow.PersistentModelManifest

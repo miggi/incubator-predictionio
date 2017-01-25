@@ -18,7 +18,7 @@
 
 package org.apache.predictionio.workflow;
 
-import org.apache.predictionio.controller.Params;
+import org.apache.predictionio.Params;
 
 public class JavaParams implements Params {
     private final String p;

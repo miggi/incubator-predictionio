@@ -18,7 +18,7 @@
 
 package org.apache.predictionio.workflow
 
-import org.apache.predictionio.data.storage.EngineInstance
+import org.apache.predictionio.EngineInstance
 import org.json4s._
 
 trait EngineServerPlugin {

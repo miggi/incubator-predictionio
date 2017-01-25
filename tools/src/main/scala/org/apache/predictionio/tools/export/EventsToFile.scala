@@ -20,11 +20,9 @@ package org.apache.predictionio.tools.export
 
 import org.apache.predictionio.controller.Utils
 import org.apache.predictionio.data.storage.EventJson4sSupport
-import org.apache.predictionio.data.storage.Storage
-import org.apache.predictionio.tools.Runner
-import org.apache.predictionio.workflow.WorkflowContext
-import org.apache.predictionio.workflow.WorkflowUtils
+import org.apache.predictionio.workflow.{WorkflowContext, WorkflowUtils}
 import grizzled.slf4j.Logging
+import org.apache.predictionio.{Runner, Storage}
 import org.apache.spark.sql.{SQLContext, SaveMode, SparkSession}
 import org.json4s.native.Serialization._
 

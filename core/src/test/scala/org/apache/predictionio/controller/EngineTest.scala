@@ -17,13 +17,9 @@
 
 package org.apache.predictionio.controller
 
-import org.apache.predictionio.workflow.PersistentModelManifest
-import org.apache.predictionio.workflow.SharedSparkContext
-import org.apache.predictionio.workflow.StopAfterPrepareInterruption
-import org.apache.predictionio.workflow.StopAfterReadInterruption
-
+import org.apache.predictionio.workflow._
 import grizzled.slf4j.Logger
-import org.apache.predictionio.workflow.WorkflowParams
+import org.apache.predictionio.{EngineParams, StopAfterPrepareInterruption, workflow}
 import org.apache.spark.rdd.RDD
 import org.scalatest.Inspectors._
 import org.scalatest.Matchers._
@@ -439,7 +435,7 @@ class EngineTrainSuite extends FunSuite with SharedSparkContext {
     val workflowParams = defaultWorkflowParams.copy(
       stopAfterPrepare = true)
 
-    an [StopAfterPrepareInterruption] should be thrownBy Engine.train(
+    an [workflow.StopAfterPrepareInterruption] should be thrownBy Engine.train(
       sc,
       new PDataSource0(0),
       new PPreparator0(1),

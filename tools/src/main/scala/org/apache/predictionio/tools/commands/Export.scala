@@ -18,9 +18,9 @@
 
 package org.apache.predictionio.tools.commands
 
+import org.apache.predictionio.{Runner, SparkArgs}
 import org.apache.predictionio.tools.Runner
-import org.apache.predictionio.tools.SparkArgs
-import org.apache.predictionio.tools.ReturnTypes._
+import org.apache.predictionio.ReturnTypes._
 
 import scala.sys.process._
 

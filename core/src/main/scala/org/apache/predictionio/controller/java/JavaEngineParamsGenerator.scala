@@ -18,7 +18,7 @@
 
 package org.apache.predictionio.controller.java
 
-import org.apache.predictionio.controller.EngineParams
+import org.apache.predictionio.EngineParams
 import org.apache.predictionio.controller.EngineParamsGenerator
 
 import scala.collection.JavaConversions.asScalaBuffer

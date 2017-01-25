@@ -48,7 +48,7 @@ lazy val pioBuildInfoSettings = buildInfoSettings ++ Seq(
     scalaVersion,
     sbtVersion,
     sparkVersion),
-  buildInfoPackage := "org.apache.predictionio.core")
+  buildInfoPackage := "org.apache.predictionio.tools")
 
 lazy val conf = file(".") / "conf"
 
@@ -60,17 +60,18 @@ lazy val root = project in file(".") aggregate(
   e2)
 
 lazy val common = (project in file("common")).
+  settings(pioBuildInfoSettings: _*).
   settings(unmanagedClasspath in Test += conf)
 
 lazy val core = (project in file("core")).
   dependsOn(data).
-//  settings(genjavadocSettings: _*).
+  settings(genjavadocSettings: _*).
   settings(pioBuildInfoSettings: _*).
   enablePlugins(SbtTwirl).
   settings(unmanagedClasspath in Test += conf)
 
 lazy val data = (project in file("data")).
-  dependsOn(common).dependsOn(tools).
+  dependsOn(common).
   settings(genjavadocSettings: _*).
   settings(unmanagedClasspath in Test += conf)
 

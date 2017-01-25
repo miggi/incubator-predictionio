@@ -36,18 +36,15 @@ import com.twitter.chill.ScalaKryoInstantiator
 import com.typesafe.config.ConfigFactory
 import de.javakaffee.kryoserializers.SynchronizedCollectionsSerializer
 import grizzled.slf4j.Logging
+import org.apache.predictionio.{EngineInstance, EngineManifest, Params, Storage}
 import org.apache.predictionio.authentication.KeyAuthentication
 import org.apache.predictionio.configuration.SSLConfiguration
 import org.apache.predictionio.controller.Engine
-import org.apache.predictionio.controller.Params
 import org.apache.predictionio.controller.Utils
 import org.apache.predictionio.controller.WithPrId
 import org.apache.predictionio.core.BaseAlgorithm
 import org.apache.predictionio.core.BaseServing
 import org.apache.predictionio.core.Doer
-import org.apache.predictionio.data.storage.EngineInstance
-import org.apache.predictionio.data.storage.EngineManifest
-import org.apache.predictionio.data.storage.Storage
 import org.apache.predictionio.workflow.JsonExtractorOption.JsonExtractorOption
 import org.json4s._
 import org.json4s.native.JsonMethods._
@@ -58,7 +55,7 @@ import spray.http.MediaTypes._
 import spray.http._
 import spray.httpx.Json4sSupport
 import spray.routing._
-import spray.routing.authentication.{UserPass, BasicAuth}
+import spray.routing.authentication.{BasicAuth, UserPass}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -69,22 +66,6 @@ import scala.util.Failure
 import scala.util.Random
 import scala.util.Success
 import scalaj.http.HttpOptions
-
-class KryoInstantiator(classLoader: ClassLoader) extends ScalaKryoInstantiator {
-  override def newKryo(): KryoBase = {
-    val kryo = super.newKryo()
-    kryo.setClassLoader(classLoader)
-    SynchronizedCollectionsSerializer.registerSerializers(kryo)
-    kryo
-  }
-}
-
-object KryoInstantiator extends Serializable {
-  def newKryoInjection : Injection[Any, Array[Byte]] = {
-    val kryoInstantiator = new KryoInstantiator(getClass.getClassLoader)
-    KryoInjection.instance(kryoInstantiator)
-  }
-}
 
 case class ServerConfig(
   batch: String = "",

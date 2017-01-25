@@ -6,8 +6,8 @@ import org.apache.predictionio.controller.EmptyEvaluationInfo
 import org.apache.predictionio.controller.IEngineFactory
 import org.apache.predictionio.controller.LAlgorithm
 import org.apache.predictionio.controller.LDataSource
-import org.apache.predictionio.controller.Params
-import org.apache.predictionio.controller.SimpleEngine
+import org.apache.predictionio.Params
+import org.apache.predictionio.SimpleEngine
 
 // All data classes must be an instance of Serializable
 class MyTrainingData(

@@ -18,13 +18,12 @@
 
 package org.apache.predictionio.workflow
 
-import org.apache.predictionio.controller.EngineParams
 import org.apache.predictionio.controller.Evaluation
 import org.apache.predictionio.core.BaseEvaluator
 import org.apache.predictionio.core.BaseEvaluatorResult
 import org.apache.predictionio.core.BaseEngine
-
 import grizzled.slf4j.Logger
+import org.apache.predictionio.EngineParams
 import org.apache.spark.SparkContext
 
 import scala.language.existentials

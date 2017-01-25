@@ -379,7 +379,7 @@ The following code is taken from the [text classification engine template](/gall
 ```scala
 package FeatureReduction
 
-import org.apache.predictionio.controller.Params
+import org.apache.predictionio.Params
 import org.apache.predictionio.controller.P2LAlgorithm
 import org.apache.spark.SparkContext
 import org.apache.spark.ml.classification.LogisticRegression

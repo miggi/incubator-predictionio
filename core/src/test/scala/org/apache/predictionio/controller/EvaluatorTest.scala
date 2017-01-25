@@ -17,9 +17,9 @@
 
 package org.apache.predictionio.controller
 
+import org.apache.predictionio.EngineParams
 import org.apache.predictionio.core._
 import org.apache.predictionio.workflow.WorkflowParams
-
 import org.apache.spark.SparkContext
 import org.apache.spark.rdd.RDD
 

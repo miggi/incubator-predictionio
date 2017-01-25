@@ -17,8 +17,8 @@
 
 package org.apache.predictionio.workflow
 
+import org.apache.predictionio.EngineParams
 import org.apache.predictionio.controller._
-
 import org.scalatest.FunSuite
 import org.scalatest.Matchers._
 

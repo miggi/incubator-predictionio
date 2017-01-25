@@ -19,8 +19,9 @@ package org.apache.predictionio.controller
 
 import org.apache.predictionio.controller.{Params => PIOParams}
 import org.apache.predictionio.core._
-
 import grizzled.slf4j.Logger
+import org.apache.predictionio
+import org.apache.predictionio.{EmptyParams, EngineParams, Params}
 import org.apache.predictionio.workflow.WorkflowParams
 import org.apache.spark.SparkContext
 import org.apache.spark.SparkContext._
@@ -68,7 +69,7 @@ object Engine0 {
   }
 
   object PDataSource2 {
-    case class Params(id: Int, en: Int = 0, qn: Int = 0) extends PIOParams
+    case class Params(id: Int, en: Int = 0, qn: Int = 0) extends predictionio.Params
   }
   
   class PDataSource2(params: PDataSource2.Params)
@@ -97,7 +98,7 @@ object Engine0 {
   
   object PDataSource4 {
     class Params(val id: Int, val en: Int = 0, val qn: Int = 0) 
-      extends PIOParams
+      extends predictionio.Params
   }
   
   class PDataSource4(params: PDataSource4.Params)
@@ -134,7 +135,7 @@ object Engine0 {
   }
   
   object LDataSource1 {
-    case class Params(id: Int, en: Int = 0, qn: Int = 0) extends PIOParams
+    case class Params(id: Int, en: Int = 0, qn: Int = 0) extends predictionio.Params
   }
   
   class LDataSource1(params: LDataSource1.Params)
@@ -161,7 +162,7 @@ object Engine0 {
   }
 
   object PPreparator1 {
-    case class Params(id: Int  = 0) extends PIOParams
+    case class Params(id: Int  = 0) extends predictionio.Params
   }
 
   class PPreparator1(params: PPreparator1.Params)
@@ -179,7 +180,7 @@ object Engine0 {
   }
   
   object LPreparator1 {
-    case class Params(id: Int  = 0) extends PIOParams
+    case class Params(id: Int  = 0) extends predictionio.Params
   }
 
   class LPreparator1(params: LPreparator1.Params)
@@ -231,7 +232,7 @@ object Engine0 {
   
   object PAlgo2 {
     case class Model(id: Int, pd: ProcessedData)
-    case class Params(id: Int) extends PIOParams
+    case class Params(id: Int) extends predictionio.Params
   }
 
   class PAlgo2(params: PAlgo2.Params)
@@ -258,7 +259,7 @@ object Engine0 {
     
     object Model extends LocalFileSystemPersistentModelLoader[Params, Model]
 
-    case class Params(id: Int) extends PIOParams
+    case class Params(id: Int) extends predictionio.Params
   }
 
   class PAlgo3(params: PAlgo3.Params)
@@ -306,7 +307,7 @@ object Engine0 {
   }
   
   object LAlgo2 {
-    case class Params(id: Int) extends PIOParams
+    case class Params(id: Int) extends predictionio.Params
 
     case class Model(id: Int, pd: ProcessedData)
     extends LocalFileSystemPersistentModel[EmptyParams]
@@ -324,7 +325,7 @@ object Engine0 {
   }
 
   object LAlgo3 {
-    case class Params(id: Int) extends PIOParams
+    case class Params(id: Int) extends predictionio.Params
 
     case class Model(id: Int, pd: ProcessedData)
   }
@@ -368,7 +369,7 @@ object Engine0 {
   }
   
   object NAlgo2 {
-    case class Params(id: Int) extends PIOParams
+    case class Params(id: Int) extends predictionio.Params
 
     case class Model(id: Int, pd: ProcessedData)
     extends LocalFileSystemPersistentModel[EmptyParams]
@@ -387,7 +388,7 @@ object Engine0 {
   }
 
   object NAlgo3 {
-    case class Params(id: Int) extends PIOParams
+    case class Params(id: Int) extends predictionio.Params
 
     case class Model(id: Int, pd: ProcessedData)
   }
@@ -409,7 +410,7 @@ object Engine0 {
   }
 
   object LServing1 {
-    case class Params(id: Int) extends PIOParams
+    case class Params(id: Int) extends predictionio.Params
   }
   
   class LServing1(params: LServing1.Params) extends LServing[Query, Prediction] {

@@ -1,5 +1,3 @@
-addSbtPlugin("com.eed3si9n" % "sbt-buildinfo" % "0.3.2")
-
 addSbtPlugin("com.jsuereth" % "sbt-pgp" % "1.0.0")
 
 addSbtPlugin("com.typesafe.sbt" % "sbt-twirl" % "1.0.3")

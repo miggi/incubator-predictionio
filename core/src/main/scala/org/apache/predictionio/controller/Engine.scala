@@ -19,24 +19,16 @@
 package org.apache.predictionio.controller
 
 import grizzled.slf4j.Logger
+import org.apache.predictionio.{StorageClientException, workflow, _}
 import org.apache.predictionio.core.BaseAlgorithm
 import org.apache.predictionio.core.BaseDataSource
 import org.apache.predictionio.core.BaseEngine
 import org.apache.predictionio.core.BasePreparator
 import org.apache.predictionio.core.BaseServing
 import org.apache.predictionio.core.Doer
-import org.apache.predictionio.data.storage.EngineInstance
-import org.apache.predictionio.data.storage.StorageClientException
-import org.apache.predictionio.workflow.CreateWorkflow
-import org.apache.predictionio.workflow.EngineLanguage
+import EngineInstance
+import org.apache.predictionio.workflow.{EngineLanguage => _, NameParamsSerializer => _, SparkWorkflowUtils => _, _}
 import org.apache.predictionio.workflow.JsonExtractorOption.JsonExtractorOption
-import org.apache.predictionio.workflow.NameParamsSerializer
-import org.apache.predictionio.workflow.PersistentModelManifest
-import org.apache.predictionio.workflow.SparkWorkflowUtils
-import org.apache.predictionio.workflow.StopAfterPrepareInterruption
-import org.apache.predictionio.workflow.StopAfterReadInterruption
-import org.apache.predictionio.workflow.WorkflowParams
-import org.apache.predictionio.workflow.WorkflowUtils
 import org.apache.spark.SparkContext
 import org.apache.spark.SparkContext._
 import org.apache.spark.rdd.RDD
@@ -90,7 +82,7 @@ class Engine[TD, EI, PD, Q, P, A](
 
   private[predictionio]
   implicit lazy val formats = Utils.json4sDefaultFormats +
-    new NameParamsSerializer
+    new workflow.NameParamsSerializer
 
   @transient lazy protected val logger = Logger[this.type]
 
@@ -242,7 +234,7 @@ class Engine[TD, EI, PD, Q, P, A](
           case modelManifest: PersistentModelManifest => {
             logger.info("Custom-persisted model detected for algorithm " +
               algo.getClass.getName)
-            SparkWorkflowUtils.getPersistentModel(
+            workflow.SparkWorkflowUtils.getPersistentModel(
               modelManifest,
               Seq(engineInstanceId, ax, algoName).mkString("-"),
               algoParams,
@@ -358,7 +350,7 @@ class Engine[TD, EI, PD, Q, P, A](
     variantJson: JValue,
     jsonExtractor: JsonExtractorOption): EngineParams = {
 
-    val engineLanguage = EngineLanguage.Scala
+    val engineLanguage = workflow.EngineLanguage.Scala
     // Extract EngineParams
     logger.info(s"Extracting datasource params...")
     val dataSourceParams: (String, Params) =
@@ -424,7 +416,7 @@ class Engine[TD, EI, PD, Q, P, A](
     jsonExtractor: JsonExtractorOption): EngineParams = {
 
     implicit val formats = DefaultFormats
-    val engineLanguage = EngineLanguage.Scala
+    val engineLanguage = workflow.EngineLanguage.Scala
 
     val dataSourceParamsWithName: (String, Params) = {
       val (name, params) =

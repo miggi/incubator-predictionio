@@ -46,7 +46,7 @@ training process stops after the TrainingData is printed.
 [INFO] [CoreWorkflow$] TrainingData:
 [INFO] [CoreWorkflow$] ratings: [1501] (List(Rating(3,0,4.0), Rating(3,1,4.0))...)
 ...
-[INFO] [CoreWorkflow$] Training interrupted by org.apache.predictionio.workflow.StopAfterReadInterruption.
+[INFO] [CoreWorkflow$] Training interrupted by org.apache.predictionio.StopAfterReadInterruption.
 ```
 
 Similarly, you can stop the training after the Preparator phase by using
@@ -125,7 +125,7 @@ You should see the checking is skipped such as the following output:
 [INFO] [CoreWorkflow$] Data sanity checking is off.
 [INFO] [CoreWorkflow$] Data Source
 ...
-[INFO] [CoreWorkflow$] Training interrupted by org.apache.predictionio.workflow.StopAfterReadInterruption.
+[INFO] [CoreWorkflow$] Training interrupted by org.apache.predictionio.StopAfterReadInterruption.
 ```
 
 ## Engine Status Page

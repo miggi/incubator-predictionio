@@ -23,14 +23,12 @@ import _root_.java.io.PrintWriter
 
 import com.github.nscala_time.time.Imports.DateTime
 import grizzled.slf4j.Logger
+import org.apache.predictionio.{EngineParams, Params, Storage}
 import org.apache.predictionio.annotation.DeveloperApi
 import org.apache.predictionio.core.BaseEvaluator
 import org.apache.predictionio.core.BaseEvaluatorResult
-import org.apache.predictionio.data.storage.Storage
-import org.apache.predictionio.workflow.JsonExtractor
+import org.apache.predictionio.workflow.{JsonExtractor, NameParamsSerializer, WorkflowParams}
 import org.apache.predictionio.workflow.JsonExtractorOption.Both
-import org.apache.predictionio.workflow.NameParamsSerializer
-import org.apache.predictionio.workflow.WorkflowParams
 import org.apache.spark.SparkContext
 import org.apache.spark.rdd.RDD
 import org.json4s.native.Serialization.write

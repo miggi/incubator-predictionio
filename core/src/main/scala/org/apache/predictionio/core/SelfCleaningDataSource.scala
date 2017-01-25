@@ -18,8 +18,9 @@
 package org.apache.predictionio.core
 
 import grizzled.slf4j.Logger
+import org.apache.predictionio.Storage
 import org.apache.predictionio.annotation.DeveloperApi
-import org.apache.predictionio.data.storage.{DataMap, Event,Storage}
+import org.apache.predictionio.data.storage.{DataMap, Event}
 import org.apache.predictionio.data.store.{Common, LEventStore, PEventStore}
 import org.apache.spark.SparkContext
 import org.apache.spark.rdd.RDD

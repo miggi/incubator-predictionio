@@ -19,8 +19,8 @@
 package org.apache.predictionio.controller
 
 import org.apache.predictionio.workflow.SharedSparkContext
-
 import grizzled.slf4j.Logger
+import org.apache.predictionio.EmptyParams
 import org.scalatest.Matchers._
 import org.scalatest.FunSuite
 import org.scalatest.Inside

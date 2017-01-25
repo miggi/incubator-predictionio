@@ -20,9 +20,8 @@ package org.apache.predictionio.tools.console
 import org.apache.predictionio.tools._
 import org.apache.predictionio.tools.commands.Management
 import org.apache.predictionio.tools.commands._
-import org.apache.predictionio.tools.commands.Engine
 import org.apache.predictionio.tools.commands.{AccessKey => AccessKeysCmd, App => AppCmd}
-import org.apache.predictionio.tools.ReturnTypes._
+import org.apache.predictionio.ReturnTypes._
 import org.apache.predictionio.tools.commands.Import
 import org.apache.predictionio.tools.commands.Export
 import grizzled.slf4j.Logging
@@ -34,6 +33,7 @@ import scala.sys.process._
 import java.io.File
 
 import akka.actor.ActorSystem
+import org.apache.predictionio._
 
 object Pio extends Logging {
 

@@ -17,12 +17,12 @@
 
 package org.apache.predictionio.controller
 
+import org.apache.predictionio.EngineParams
 import org.apache.predictionio.workflow.WorkflowParams
 import org.scalatest.FunSuite
 import org.scalatest.Inside
 import org.scalatest.Matchers._
 import org.scalatest.Inspectors._
-
 import org.apache.predictionio.workflow.SharedSparkContext
 
 class FastEngineSuite

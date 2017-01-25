@@ -21,8 +21,7 @@ package org.apache.predictionio.workflow
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.TypeAdapterFactory
-import org.apache.predictionio.controller.EngineParams
-import org.apache.predictionio.controller.Params
+import org.apache.predictionio.{EngineParams, Params}
 import org.apache.predictionio.controller.Utils
 import org.apache.predictionio.workflow.JsonExtractorOption.JsonExtractorOption
 import org.json4s.Extraction

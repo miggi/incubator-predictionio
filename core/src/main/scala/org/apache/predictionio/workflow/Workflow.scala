@@ -18,14 +18,13 @@
 
 package org.apache.predictionio.workflow
 
+import org.apache.predictionio.{EngineParams, EvaluationInstance}
 import org.apache.predictionio.annotation.Experimental
-import org.apache.predictionio.controller.EngineParams
 import org.apache.predictionio.controller.EngineParamsGenerator
 import org.apache.predictionio.controller.Evaluation
 import org.apache.predictionio.core.BaseEngine
 import org.apache.predictionio.core.BaseEvaluator
 import org.apache.predictionio.core.BaseEvaluatorResult
-import org.apache.predictionio.data.storage.EvaluationInstance
 
 /** Collection of workflow creation methods.
   * @group Workflow

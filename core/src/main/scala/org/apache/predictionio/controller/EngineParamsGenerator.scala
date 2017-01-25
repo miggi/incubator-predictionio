@@ -18,6 +18,8 @@
 
 package org.apache.predictionio.controller
 
+import org.apache.predictionio.EngineParams
+
 import scala.language.implicitConversions
 
 /** Defines an engine parameters generator.

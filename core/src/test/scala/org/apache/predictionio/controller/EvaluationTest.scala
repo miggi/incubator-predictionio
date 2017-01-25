@@ -17,12 +17,10 @@
 
 package org.apache.predictionio.controller
 
-import org.apache.predictionio.workflow.SharedSparkContext
-
+import org.apache.predictionio.workflow.{SharedSparkContext, WorkflowUtils}
 import org.scalatest.FunSuite
 import org.scalatest.Inside
 import org.scalatest.Matchers._
-
 import org.apache.spark.SparkContext
 import org.apache.spark.rdd.RDD
 
@@ -53,7 +51,7 @@ extends FunSuite with Inside with SharedSparkContext {
   }
 
   test("Load from class path") {
-    val r = org.apache.predictionio.workflow.WorkflowUtils.getEvaluation(
+    val r = WorkflowUtils.getEvaluation(
       "org.apache.predictionio.controller.EvaluationSuite.Evaluation0",
       getClass.getClassLoader)
 

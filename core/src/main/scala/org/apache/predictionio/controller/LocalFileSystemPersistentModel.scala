@@ -18,6 +18,7 @@
 
 package org.apache.predictionio.controller
 
+import org.apache.predictionio.Params
 import org.apache.spark.SparkContext
 
 /** This trait is a convenience helper for persisting your model to the local

@@ -19,7 +19,7 @@ package org.apache.predictionio.tools.admin
 
 import akka.actor.{ActorSystem, Props}
 import akka.testkit.TestProbe
-import org.apache.predictionio.data.storage.Storage
+import org.apache.predictionio.Storage
 import org.specs2.mutable.Specification
 import spray.http._
 import spray.httpx.RequestBuilding._

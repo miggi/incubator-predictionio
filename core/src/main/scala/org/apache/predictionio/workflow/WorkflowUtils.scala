@@ -25,17 +25,16 @@ import org.apache.predictionio.controller.EmptyParams
 import org.apache.predictionio.controller.EngineFactory
 import org.apache.predictionio.controller.EngineParamsGenerator
 import org.apache.predictionio.controller.Evaluation
-import org.apache.predictionio.controller.Params
 import org.apache.predictionio.controller.PersistentModelLoader
 import org.apache.predictionio.controller.Utils
 import org.apache.predictionio.core.BuildInfo
-
 import com.google.gson.Gson
 import com.google.gson.JsonSyntaxException
 import grizzled.slf4j.Logging
 import org.apache.predictionio.workflow.JsonExtractorOption.JsonExtractorOption
 import org.apache.log4j.Level
 import org.apache.log4j.LogManager
+import org.apache.predictionio.{EmptyParams, Params}
 import org.apache.spark.SparkContext
 import org.apache.spark.api.java.JavaRDDLike
 import org.apache.spark.rdd.RDD
@@ -81,7 +80,7 @@ object WorkflowUtils extends Logging {
   }
 
   def getEngineParamsGenerator(epg: String, cl: ClassLoader):
-    (EngineLanguage.Value, EngineParamsGenerator) = {
+  (EngineLanguage.Value, EngineParamsGenerator) = {
     val runtimeMirror = universe.runtimeMirror(cl)
     val epgModule = runtimeMirror.staticModule(epg)
     val epgObject = runtimeMirror.reflectModule(epgModule)
@@ -132,11 +131,11 @@ object WorkflowUtils extends Logging {
     * @throws JsonSyntaxException Thrown when GSON fails to perform conversion.
     */
   def extractParams(
-      language: EngineLanguage.Value = EngineLanguage.Scala,
-      json: String,
-      clazz: Class[_],
-      jsonExtractor: JsonExtractorOption,
-      formats: Formats = Utils.json4sDefaultFormats): Params = {
+                     language: EngineLanguage.Value = EngineLanguage.Scala,
+                     json: String,
+                     clazz: Class[_],
+                     jsonExtractor: JsonExtractorOption,
+                     formats: Formats = Utils.json4sDefaultFormats): Params = {
     implicit val f = formats
     val pClass = clazz.getConstructors.head.getParameterTypes
     if (pClass.size == 0) {
@@ -162,11 +161,11 @@ object WorkflowUtils extends Logging {
   }
 
   def getParamsFromJsonByFieldAndClass(
-      variantJson: JValue,
-      field: String,
-      classMap: Map[String, Class[_]],
-      engineLanguage: EngineLanguage.Value,
-      jsonExtractor: JsonExtractorOption): (String, Params) = {
+                                        variantJson: JValue,
+                                        field: String,
+                                        classMap: Map[String, Class[_]],
+                                        engineLanguage: EngineLanguage.Value,
+                                        jsonExtractor: JsonExtractorOption): (String, Params) = {
     variantJson findField {
       case JField(f, _) => f == field
       case _ => false
@@ -314,7 +313,7 @@ object WorkflowUtils extends Logging {
         case JObject(fields) =>
           for ((namePrefix, childJV) <- fields;
                (name, value) <- flatten(childJV))
-          yield (namePrefix :: name) -> value
+            yield (namePrefix :: name) -> value
         case JArray(_) => {
           error("Arrays are not allowed in the sparkConf section of engine.js.")
           sys.exit(1)
@@ -338,18 +337,18 @@ class NameParamsSerializer extends CustomSerializer[NameParams](format => ( {
     JObject(JField("name", JString(x.name)) ::
       JField("params", x.params.getOrElse(JNothing)) :: Nil)
 }
-  ))
+))
 
 /** Collection of reusable workflow related utilities that touch on Apache
   * Spark. They are separated to avoid compilation problems with certain code.
   */
 object SparkWorkflowUtils extends Logging {
   def getPersistentModel[AP <: Params, M](
-      pmm: PersistentModelManifest,
-      runId: String,
-      params: AP,
-      sc: Option[SparkContext],
-      cl: ClassLoader): M = {
+                                           pmm: PersistentModelManifest,
+                                           runId: String,
+                                           params: AP,
+                                           sc: Option[SparkContext],
+                                           cl: ClassLoader): M = {
     val runtimeMirror = universe.runtimeMirror(cl)
     val pmmModule = runtimeMirror.staticModule(pmm.className)
     val pmmObject = runtimeMirror.reflectModule(pmmModule)

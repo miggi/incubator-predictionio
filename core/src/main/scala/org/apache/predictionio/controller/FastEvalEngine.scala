@@ -24,7 +24,6 @@ import org.apache.predictionio.core.BaseAlgorithm
 import org.apache.predictionio.core.BaseServing
 import org.apache.predictionio.core.Doer
 import org.apache.predictionio.annotation.Experimental
-
 import grizzled.slf4j.Logger
 import org.apache.predictionio.workflow.WorkflowParams
 import org.apache.spark.SparkContext
@@ -32,10 +31,11 @@ import org.apache.spark.SparkContext._
 import org.apache.spark.rdd.RDD
 
 import scala.language.implicitConversions
-
 import _root_.java.util.NoSuchElementException
 
-import scala.collection.mutable.{ HashMap => MutableHashMap }
+import org.apache.predictionio.{EngineParams, Params}
+
+import scala.collection.mutable.{HashMap => MutableHashMap}
 
 /** :: Experimental ::
   * Workflow based on [[FastEvalEngine]]

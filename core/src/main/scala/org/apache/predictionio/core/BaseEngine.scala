@@ -18,8 +18,8 @@
 
 package org.apache.predictionio.core
 
+import org.apache.predictionio.EngineParams
 import org.apache.predictionio.annotation.DeveloperApi
-import org.apache.predictionio.controller.EngineParams
 import org.apache.predictionio.workflow.JsonExtractorOption.JsonExtractorOption
 import org.apache.predictionio.workflow.WorkflowParams
 import org.apache.spark.SparkContext

@@ -18,6 +18,7 @@
 
 package org.apache.predictionio.controller
 
+import org.apache.predictionio.{EmptyParams, EngineParams}
 import org.apache.predictionio.workflow.SharedSparkContext
 import org.apache.predictionio.workflow.WorkflowParams
 import org.scalatest.FunSuite

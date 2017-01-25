@@ -18,21 +18,17 @@
 
 package org.apache.predictionio.core
 
+import org.apache.predictionio.{Params, Storage}
 import org.apache.predictionio.core.SelfCleaningDataSource
 import org.apache.predictionio.core.EventWindow
 import org.apache.predictionio.workflow.SharedSparkContext
-
 import org.apache.predictionio.controller.PDataSource
 import org.apache.predictionio.controller.EmptyEvaluationInfo
 import org.apache.predictionio.controller.EmptyActualResult
-import org.apache.predictionio.controller.Params
 import org.apache.predictionio.data.storage.Event
-import org.apache.predictionio.data.storage.Storage
 import org.apache.predictionio.data.store._
-
 import org.apache.spark.SparkContext
 import org.apache.spark.SparkContext._
-
 import org.apache.spark.rdd.RDD
 import org.scalatest.Inspectors._
 import org.scalatest.Matchers._
