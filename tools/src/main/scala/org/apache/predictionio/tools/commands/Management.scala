@@ -19,19 +19,16 @@ package org.apache.predictionio.tools.commands
 
 import org.apache.predictionio.core.BuildInfo
 import org.apache.predictionio.data.storage
-import org.apache.predictionio.data.api.EventServer
-import org.apache.predictionio.data.api.EventServerConfig
-import org.apache.predictionio.tools.EventServerArgs
-import org.apache.predictionio.tools.EitherLogging
-import org.apache.predictionio.tools.Common
+import org.apache.predictionio.data.api.{TaskServer, TaskServerConfig, EventServer, EventServerConfig}
+import org.apache.predictionio.tools.{Common, TaskServerArgs, EitherLogging, EventServerArgs}
 import org.apache.predictionio.tools.ReturnTypes._
 import org.apache.predictionio.tools.dashboard.Dashboard
 import org.apache.predictionio.tools.dashboard.DashboardConfig
 import org.apache.predictionio.tools.admin.AdminServer
 import org.apache.predictionio.tools.admin.AdminServerConfig
-
 import akka.actor.ActorSystem
 import java.io.File
+
 import scala.io.Source
 import semverfi._
 
@@ -78,6 +75,19 @@ object Management extends EitherLogging {
       ip = ea.ip,
       port = ea.port,
       stats = ea.stats))
+  }
+
+  /** Starts an Task server server and returns immediately
+    *
+    * @param ea An instance of [[EventServerArgs]]
+    * @return An instance of [[ActorSystem]] in which the server is being executed
+    */
+  def taskserver(ea: TaskServerArgs): ActorSystem = {
+    info(s"Creating Event Server at ${ea.ip}:${ea.port}")
+    TaskServer.createTaskServer(TaskServerConfig(
+      ip = ea.ip,
+      port = ea.port
+    ))
   }
 
   /** Starts an adminserver server and returns immediately

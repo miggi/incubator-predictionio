@@ -22,20 +22,17 @@ import org.apache.predictionio.controller.Utils
 import org.apache.predictionio.data.storage
 import org.apache.predictionio.data.storage.EngineManifest
 import org.apache.predictionio.data.storage.EngineManifestSerializer
-import org.apache.predictionio.tools.RegisterEngine
-import org.apache.predictionio.tools.EitherLogging
-import org.apache.predictionio.tools.{RunWorkflow, RunServer}
-import org.apache.predictionio.tools.{DeployArgs, WorkflowArgs, SparkArgs, ServerArgs}
+import org.apache.predictionio.tools._
 import org.apache.predictionio.tools.ReturnTypes._
 import org.apache.predictionio.tools.Common._
 import org.apache.predictionio.workflow.WorkflowUtils
-
 import org.apache.commons.io.FileUtils
 import org.json4s.native.Serialization.read
 import org.json4s._
 import org.json4s.native.JsonMethods._
 import org.json4s.native.Serialization.read
 import org.json4s.native.Serialization.write
+
 import scala.io.Source
 import scala.util.Random
 import scala.collection.JavaConversions._
@@ -360,7 +357,7 @@ object Engine extends EitherLogging {
     *  The function starts a new process to be run concerrently.
     *
     * @param ea An instance of [[EngineArgs]]
-    * @param engineInstanceId An instance of [[engineInstanceId]]
+    * @param engineInstanceId An instance of engineInstanceId
     * @param serverArgs An instance of [[ServerArgs]]
     * @param sparkArgs An instance of [[SparkArgs]]
     * @param pioHome [[String]] with a path to PIO installation

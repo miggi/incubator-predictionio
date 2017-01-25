@@ -43,14 +43,18 @@ case class EventServerArgs(
   port: Int = 7070,
   stats: Boolean = false)
 
+case class TaskServerArgs(
+                            enabled: Boolean = false,
+                            ip: String = "0.0.0.0",
+                            port: Int = 7770
+                           )
 case class ServerArgs(
-  deploy: DeployArgs = DeployArgs(),
-  eventServer: EventServerArgs = EventServerArgs(),
-  batch: String = "",
-  accessKey: String = "",
-  variantJson: File = new File("engine.json"),
-  jsonExtractor: JsonExtractorOption = JsonExtractorOption.Both)
-
+                       deploy: DeployArgs = DeployArgs(),
+                       eventServer: EventServerArgs = EventServerArgs(),
+                       batch: String = "",
+                       accessKey: String = "",
+                       variantJson: File = new File("engine.json"),
+                       jsonExtractor: JsonExtractorOption = JsonExtractorOption.Both)
 
 object RunServer extends Logging {
 

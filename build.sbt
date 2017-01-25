@@ -64,13 +64,13 @@ lazy val common = (project in file("common")).
 
 lazy val core = (project in file("core")).
   dependsOn(data).
-  settings(genjavadocSettings: _*).
+//  settings(genjavadocSettings: _*).
   settings(pioBuildInfoSettings: _*).
   enablePlugins(SbtTwirl).
   settings(unmanagedClasspath in Test += conf)
 
 lazy val data = (project in file("data")).
-  dependsOn(common).
+  dependsOn(common).dependsOn(tools).
   settings(genjavadocSettings: _*).
   settings(unmanagedClasspath in Test += conf)
 

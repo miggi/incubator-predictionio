@@ -17,21 +17,17 @@
 
 package org.apache.predictionio.tools.console
 
-import org.apache.predictionio.tools.{
-  EventServerArgs, SparkArgs, WorkflowArgs, ServerArgs, DeployArgs}
+import org.apache.predictionio.tools._
 import org.apache.predictionio.tools.commands.Management
-import org.apache.predictionio.tools.commands.{
-  DashboardArgs, AdminServerArgs, ImportArgs, ExportArgs,
-  BuildArgs, EngineArgs, AppDescription}
+import org.apache.predictionio.tools.commands._
 import org.apache.predictionio.tools.commands.Engine
-import org.apache.predictionio.tools.commands.{
-  App => AppCmd, AccessKey => AccessKeysCmd}
+import org.apache.predictionio.tools.commands.{AccessKey => AccessKeysCmd, App => AppCmd}
 import org.apache.predictionio.tools.ReturnTypes._
 import org.apache.predictionio.tools.commands.Import
 import org.apache.predictionio.tools.commands.Export
-
 import grizzled.slf4j.Logging
-import scala.concurrent.{Future, ExecutionContext, Await}
+
+import scala.concurrent.{Await, ExecutionContext, Future}
 import scala.concurrent.duration._
 import scala.language.implicitConversions
 import scala.sys.process._
@@ -123,6 +119,11 @@ object Pio extends Logging {
 
   def eventserver(ea: EventServerArgs): Int = {
     Management.eventserver(ea).awaitTermination
+    0
+  }
+
+  def taskserver(tsa: TaskServerArgs): Int = {
+    Management.taskserver(tsa).awaitTermination
     0
   }
 

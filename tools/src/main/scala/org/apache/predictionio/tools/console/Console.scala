@@ -39,6 +39,7 @@ import org.apache.predictionio.tools.commands.{
 import org.apache.predictionio.tools.{
   EventServerArgs, SparkArgs, WorkflowArgs, ServerArgs, DeployArgs}
 import org.apache.predictionio.tools.EventServerArgs
+import org.apache.predictionio.tools.TaskServerArgs
 import org.apache.predictionio.tools.admin.AdminServer
 import org.apache.predictionio.tools.admin.AdminServerConfig
 import org.apache.predictionio.tools.dashboard.Dashboard
@@ -61,26 +62,27 @@ import scala.util.Random
 import scalaj.http.Http
 
 case class ConsoleArgs(
-  build: BuildArgs = BuildArgs(),
-  app: AppArgs = AppArgs(),
-  spark: SparkArgs = SparkArgs(),
-  engine: EngineArgs = EngineArgs(),
-  workflow: WorkflowArgs = WorkflowArgs(),
-  accessKey: AccessKeyArgs = AccessKeyArgs(),
-  deploy: DeployArgs = DeployArgs(),
-  eventServer: EventServerArgs = EventServerArgs(),
-  adminServer: AdminServerArgs = AdminServerArgs(),
-  dashboard: DashboardArgs = DashboardArgs(),
-  export: ExportArgs = ExportArgs(),
-  imprt: ImportArgs = ImportArgs(),
-  commands: Seq[String] = Seq(),
-  metricsParamsJsonPath: Option[String] = None,
-  paramsPath: String = "params",
-  engineInstanceId: Option[String] = None,
-  mainClass: Option[String] = None,
-  driverPassThrough: Seq[String] = Seq(),
-  pioHome: Option[String] = None,
-  verbose: Boolean = false)
+                        build: BuildArgs = BuildArgs(),
+                        app: AppArgs = AppArgs(),
+                        spark: SparkArgs = SparkArgs(),
+                        engine: EngineArgs = EngineArgs(),
+                        workflow: WorkflowArgs = WorkflowArgs(),
+                        accessKey: AccessKeyArgs = AccessKeyArgs(),
+                        deploy: DeployArgs = DeployArgs(),
+                        eventServer: EventServerArgs = EventServerArgs(),
+                        taskServer: TaskServerArgs = TaskServerArgs(),
+                        adminServer: AdminServerArgs = AdminServerArgs(),
+                        dashboard: DashboardArgs = DashboardArgs(),
+                        export: ExportArgs = ExportArgs(),
+                        imprt: ImportArgs = ImportArgs(),
+                        commands: Seq[String] = Seq(),
+                        metricsParamsJsonPath: Option[String] = None,
+                        paramsPath: String = "params",
+                        engineInstanceId: Option[String] = None,
+                        mainClass: Option[String] = None,
+                        driverPassThrough: Seq[String] = Seq(),
+                        pioHome: Option[String] = None,
+                        verbose: Boolean = false)
 
 case class AppArgs(
   id: Option[Int] = None,
@@ -305,6 +307,12 @@ object Console extends Logging {
           opt[Int]("event-server-port") action { (x, c) =>
             c.copy(eventServer = c.eventServer.copy(port = x))
           } text("Event server port. Default: 7070"),
+          opt[String]("task-server-ip") action { (x, c) =>
+            c.copy(taskServer = c.taskServer.copy(ip = x))
+          },
+          opt[Int]("task-server-port") action { (x, c) =>
+           c.copy(taskServer = c.taskServer.copy(port = x))
+          } text ("Task server port. Default: 7770"),
           opt[Int]("admin-server-port") action { (x, c) =>
             c.copy(adminServer = c.adminServer.copy(port = x))
           } text("Admin server port. Default: 7071"),
@@ -376,6 +384,18 @@ object Console extends Logging {
             c.copy(eventServer = c.eventServer.copy(stats = true))
           }
         )
+      cmd("taskserver").
+        text("Launch an Deploy Server at the specific IP and port.").
+        action { (_, c) =>
+          c.copy(commands = c.commands :+ "taskserver")
+        } children(
+        opt[String]("ip") action { (x, c) =>
+          c.copy(taskServer = c.taskServer.copy(ip = x))
+        },
+        opt[Int]("port") action { (x, c) =>
+          c.copy(taskServer = c.taskServer.copy(port = x))
+        } text("Port to bind to. Default: 7770")
+      )
       cmd("adminserver").
         text("Launch an Admin Server at the specific IP and port.").
         action { (_, c) =>
@@ -678,6 +698,8 @@ object Console extends Logging {
           Pio.dashboard(ca.dashboard)
         case Seq("eventserver") =>
           Pio.eventserver(ca.eventServer)
+        case Seq("taskserver") =>
+          Pio.taskserver(ca.taskServer)
         case Seq("adminserver") =>
           Pio.adminserver(ca.adminServer)
         case Seq("run") =>

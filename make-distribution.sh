@@ -40,7 +40,6 @@ mkdir -p ${DISTDIR}/maven
 
 cp ${FWDIR}/bin/* ${DISTDIR}/bin || :
 cp ${FWDIR}/conf/* ${DISTDIR}/conf
-cp ${FWDIR}/project/build.properties ${DISTDIR}/project
 cp -r ${FWDIR}/maven/* ${DISTDIR}/maven
 cp ${FWDIR}/assembly/*assembly*jar ${DISTDIR}/lib
 
